@@ -1,8 +1,13 @@
-
+import LogoURL from './images/logo.svg';
 
 export default function App() {
   return (
-   <div>Is it working?</div>
+   <main className='main'>
+      <a href="/" aria-label='Homepage'>
+        <img src={LogoURL} alt="" />
+      </a>
+
+   </main>
   );
 }
 
