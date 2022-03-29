@@ -1,4 +1,9 @@
-export default function OutputItem({ title }: { title: string }) {
+interface Props {
+  title: string;
+  value: number;
+}
+
+export default function OutputItem({ title, value }: Props) {
   const id =
     'output-' +
     title
@@ -9,14 +14,19 @@ export default function OutputItem({ title }: { title: string }) {
   return (
     <div className="item">
       <label className="label" htmlFor={id}>
-        <p className="title">Tip Amount</p>
+        <p className="title">{title}</p>
         <p className="person">/person</p>
       </label>
       <output
         id={id}
         htmlFor="bill rp-5 rp-10 rp-15 rp-25 rp-50 rp-custom npeople"
         className="value"
-      ></output>
+      >
+        {Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }).format(value)}
+      </output>
     </div>
   );
 }
