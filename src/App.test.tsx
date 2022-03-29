@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import Calculator from './components/calculator';
 
 describe('Test initialization values', () => {
@@ -40,3 +40,33 @@ describe('Test initialization values', () => {
     expect(totalOutput).toHaveTextContent('$0.00');
   });
 });
+
+describe('Test radio buttons and custom input interaction', () => {
+  it('should focus on custom input and initialize it to zero when custom radio is checked', () => {
+    render(<Calculator />);
+    const customRadio = screen.getByLabelText('Custom');
+    const customInput = screen.getByLabelText('custom value');
+    fireEvent.click(customRadio);
+    expect(customInput).toHaveFocus();
+    expect(customInput).toHaveValue(0);
+  });
+
+  it('should check custom radio when custom input gets a value', () => {
+    render(<Calculator />);
+    const customRadio = screen.getByLabelText('Custom');
+    const customInput = screen.getByLabelText('custom value');
+    fireEvent.change(customInput, { target: { value: '18' } });
+    expect(customRadio).toBeChecked();
+  });
+
+  it('should set custom input value to null when other radio button is checked', () => {
+    render(<Calculator />);
+    const customInput = screen.getByLabelText('custom value');
+    fireEvent.change(customInput, { target: { value: '18' } });
+    const radio05 = screen.getByLabelText(/50%/);
+    fireEvent.click(radio05);
+    expect(customInput).toHaveValue(null);
+  });
+});
+
+describe('test tip calculation', () => {});
