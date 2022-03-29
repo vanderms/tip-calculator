@@ -1,14 +1,13 @@
-import LogoURL from './images/logo.svg';
+import LogoURL from './assets/logo.svg';
+import Calculator from './components/calculator';
 
 export default function App() {
   return (
-   <main className='main'>
-      <a href="/" aria-label='Homepage'>
+    <main className="nv-main">
+      <a className='logo-link' href="/" aria-label="Homepage">
         <img src={LogoURL} alt="" />
       </a>
-
-   </main>
+      <Calculator/>
+    </main>
   );
 }
-
-

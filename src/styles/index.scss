@@ -15,5 +15,33 @@ li {
   list-style-type: none;
 }
 
+body {
+  background-color: #c5e4e7;
+}
 
+input[type='number'] {
+  appearance: textfield;
+}
 
+.nv-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .logo-link {
+    margin-top: 50px;
+
+    img {
+      display: block;
+    }
+  }
+}
+
+.nv-screen-reader-only{
+  position: absolute;
+  left: -100vw;
+}
+
+.nv-calculator {
+  
+}
