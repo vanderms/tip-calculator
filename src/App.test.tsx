@@ -69,4 +69,47 @@ describe('Test radio buttons and custom input interaction', () => {
   });
 });
 
-describe('test tip calculation', () => {});
+describe('Test output and error message', () => {
+  it('should display error message when number of people equals zero', () => {
+    render(<Calculator />);
+    const npeople = screen.getByLabelText(/number of people/i);
+    fireEvent.change(npeople, { target: { value: '0' } });
+    const errorMessage = screen.queryByText("Can't be zero");
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it.each([
+    [142.55, '15%', 5, 4.27, 32.78],
+    [280.22, '5%', 3, 4.67, 98.07],
+    [46.75, '50%', 7, 3.33, 10.0],
+    [116.74, '18%', 4, 5.25, 34.43],
+  ])(
+    'should output the expect results in the following case test: (bill: %f, tip: %s, npeople: %i, expected tip: %f, expect total: %f',
+    (bill, tip, people, expectedTip, expectedTotal) => {
+      render(<Calculator />);
+      const billInput = screen.getByLabelText(/bill/i);
+
+      const peopleInput = screen.getByLabelText(/number of people/i);
+      fireEvent.change(billInput, { target: { value: bill.toString() } });
+
+      fireEvent.change(peopleInput, { target: { value: people.toString() } });
+
+      const tipInInteger = Number(tip.replace('%', ''));
+      if ([5, 10, 15, 25, 50].indexOf(tipInInteger) !== -1) {
+        const radioButton = screen.getByLabelText(tip);
+        fireEvent.click(radioButton);
+      } else {
+        const customInput = screen.getByLabelText('custom value');
+        fireEvent.change(customInput, {
+          target: { value: tipInInteger.toString() },
+        });
+      }
+
+      const tipOutput = screen.getByLabelText(/tip amount/i);
+      expect(tipOutput).toHaveTextContent('$' + expectedTip.toString());
+
+      const totalOutput = screen.getByLabelText(/total/i);
+      expect(totalOutput).toHaveTextContent('$' + expectedTotal.toString());
+    }
+  );
+});

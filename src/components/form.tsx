@@ -2,6 +2,18 @@ import RadioItem from './radio-item';
 import OutputItem from './output-item';
 import { useState, useRef } from 'react';
 
+function calcTipAndTotal(bill: number, tip: number, npeople: number) {
+  if (npeople === 0) {
+    return { tipAmount: 0, total: 0 };
+  }
+  const totalTipInCents = Math.floor(bill * tip);
+  const tipPerPersonInCents = Math.floor(totalTipInCents / npeople);
+  const tipAmount = tipPerPersonInCents / 100;
+  const totalWithouTip = Math.floor((bill * 100) / npeople) / 100;  
+  const total = totalWithouTip + tipAmount;
+  return { tipAmount, total };
+}
+
 export default function Form() {
   const [bill, setBill] = useState<string>('0');
   const [people, setPeople] = useState<string>('1');
@@ -29,8 +41,7 @@ export default function Form() {
     setChecked('');
   }
 
-  const tipAmount: number = +people ? (+bill * (tip / 100)) / +people : 0;
-  const total: number = +people ? (+bill * (tip / 100 + 1)) / +people : 0;
+  const { tipAmount, total } = calcTipAndTotal(+bill, tip, +people);
 
   return (
     <form className="nv-form">
@@ -71,8 +82,9 @@ export default function Form() {
             ref={customInput}
             value={customValue}
             onChange={(e) => {
-              setChecked('custom');
+              setChecked('custom');              
               setCustomValue(e.currentTarget.value);
+              setTip(+e.currentTarget.value);
             }}
             aria-label="custom value"
           />
