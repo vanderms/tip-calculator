@@ -45,7 +45,7 @@ input[type='number'] {
 }
 
 .nv-calculator {
-  width: 100%;
+  width: Min(100%, 480px);
   margin-top: 40px;
   padding: 32px;
 
