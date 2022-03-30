@@ -263,12 +263,14 @@ input[type='number'] {
         font-size: 16px;
         line-height: 24px;
         color: #ffffff;
+        display: block;
       }
 
       .output-label .person {
         font-size: 13px;
         line-height: 19px;
         color: #7f9d9f;
+        display: block;
       }
 
       & + .output-item {

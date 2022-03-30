@@ -14,8 +14,8 @@ export default function OutputItem({ title, value }: Props) {
   return (
     <div className="output-item">
       <label className="output-label" htmlFor={id}>
-        <p className="title">{title}</p>
-        <p className="person">/person</p>
+        <span className="title">{title}</span>
+        <span className="person">/ person</span>
       </label>
       <output
         id={id}
