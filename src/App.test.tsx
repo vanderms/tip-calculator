@@ -2,10 +2,10 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Calculator from './components/calculator';
 
 describe('Test initialization values', () => {
-  it('should initialize bill input with value zero', () => {
+  it('should initialize bill input empty', () => {
     render(<Calculator />);
     const bill = screen.getByLabelText(/bill/i);
-    expect(bill).toHaveValue(0);
+    expect(bill).toHaveValue(null);
   });
 
   it('should initialize all radio buttons not checked', () => {
@@ -16,16 +16,22 @@ describe('Test initialization values', () => {
     });
   });
 
-  it('should initialize number of people input with value 1', () => {
+  it('should initialize number of people input empty', () => {
     render(<Calculator />);
     const npeople = screen.getByLabelText(/number of people/i);
-    expect(npeople).toHaveValue(1);
+    expect(npeople).toHaveValue(null);
   });
 
   it('should not render number of people error message on initialization', () => {
     render(<Calculator />);
     const errorMessage = screen.queryByText("Can't be zero");
     expect(errorMessage).not.toBeInTheDocument();
+  });
+
+  it('should initialize reset button disabled', () => {
+    render(<Calculator />);
+    const resetButton = screen.getByText(/reset/i);
+    expect(resetButton).toBeDisabled();
   });
 
   it('should calc tip amount per person equals to 0 on initialization', () => {
@@ -41,7 +47,7 @@ describe('Test initialization values', () => {
   });
 });
 
-describe('Test radio buttons and custom input interaction', () => {
+describe('Test user interface interactions', () => {
   it('should focus on custom input and initialize it to zero when custom radio is checked', () => {
     render(<Calculator />);
     const customRadio = screen.getByLabelText('Custom');
@@ -67,9 +73,7 @@ describe('Test radio buttons and custom input interaction', () => {
     fireEvent.click(radio05);
     expect(customInput).toHaveValue(null);
   });
-});
 
-describe('Test output and error message', () => {
   it('should display error message when number of people equals zero', () => {
     render(<Calculator />);
     const npeople = screen.getByLabelText(/number of people/i);
@@ -78,6 +82,19 @@ describe('Test output and error message', () => {
     expect(errorMessage).toBeInTheDocument();
   });
 
+  it.each([['Bill'], ['custom value'], ['Number of People']])(
+    'should enable reset button when %s input default value is changed',
+    (label) => {
+      render(<Calculator />);
+      const resetButton = screen.getByText(/reset/i);
+      const input = screen.getByLabelText(label);
+      fireEvent.change(input, { target: { value: '2' } });
+      expect(resetButton).toBeEnabled();
+    }
+  );
+});
+
+describe('Test calculation logic', () => {
   it.each([
     [142.55, '15%', 5, 4.27, 32.78],
     [280.22, '5%', 3, 4.67, 98.07],
