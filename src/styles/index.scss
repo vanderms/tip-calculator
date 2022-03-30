@@ -51,7 +51,7 @@ input[type='number'] {
     margin-top: 50px;
 
     @include media(laptop) {
-      margin-top: 163px;    
+      margin-top: 163px;
     }
 
     img {
@@ -95,6 +95,7 @@ input[type='number'] {
       column-gap: 48px;
       row-gap: 40px;
       justify-content: space-between;
+      align-items: start;
 
       .visor {
         grid-column: 2 / span 1;
