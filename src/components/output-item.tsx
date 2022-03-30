@@ -12,8 +12,8 @@ export default function OutputItem({ title, value }: Props) {
       .join('-');
 
   return (
-    <div className="item">
-      <label className="label" htmlFor={id}>
+    <div className="output-item">
+      <label className="output-label" htmlFor={id}>
         <p className="title">{title}</p>
         <p className="person">/person</p>
       </label>

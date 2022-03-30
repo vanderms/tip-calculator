@@ -11,12 +11,13 @@ export default function RadioItem({ value, checked, onChange }: Props) {
       <input
         type="radio"
         name="percentage"
+        className="radio-buttom"
         id={id}
         value={value}
         checked={value === checked}
         onChange={onChange}
       />
-      <label htmlFor={id}>{value}%</label>
+      <label className="radio-label" htmlFor={id}>{value}%</label>
     </div>
   );
 }
